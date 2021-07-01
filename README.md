@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## React CRUD app using Tailwindcss
+## React CRUD App Project using Tailwindcss
 
 ## Available Scripts
 
