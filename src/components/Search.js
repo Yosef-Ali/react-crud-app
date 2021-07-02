@@ -1,7 +1,13 @@
 import { BiSearch, BiCaretDown, BiCheck } from "react-icons/bi";
 import { useState } from "react";
 
-const DropDown = ({ toggle }) => {
+const DropDown = ({
+  toggle,
+  sortBy,
+  onSortByChange,
+  orderBy,
+  onOrderByChange,
+}) => {
   if (!toggle) {
     return null;
   }
@@ -14,41 +20,53 @@ const DropDown = ({ toggle }) => {
         aria-labelledby="options-menu"
       >
         <div
+          onClick={() => onSortByChange("PetName")}
           className="flex justify-between px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
         >
-          Pet Name <BiCheck />
+          Pet Name {sortBy === "PetName" && <BiCheck />}
         </div>
         <div
+          onClick={() => onSortByChange("ownerName")}
           className="flex justify-between px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
         >
-          Owner Name <BiCheck />
+          Owner Name {sortBy === "ownerName" && <BiCheck />}
         </div>
         <div
+          onClick={() => onSortByChange("aptDate")}
           className="flex justify-between px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
         >
-          Date <BiCheck />
+          Date {sortBy === "aptDate" && <BiCheck />}
         </div>
         <div
+          onClick={() => onOrderByChange("asc")}
           className="flex justify-between px-4 py-2 text-sm text-gray-700 border-t-2 cursor-pointer hover:bg-gray-100 hover:text-gray-900 border-gray-1"
           role="menuitem"
         >
-          Asc <BiCheck />
+          Asc {orderBy === "asc" && <BiCheck />}
         </div>
         <div
+          onClick={() => onOrderByChange("desc")}
           className="flex justify-between px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
         >
-          Desc <BiCheck />
+          Desc{orderBy === "desc" && <BiCheck />}
         </div>
       </div>
     </div>
   );
 };
 
-const Search = ({ query, onQueryChange }) => {
+const Search = ({
+  query,
+  onQueryChange,
+  orderBy,
+  onOrderByChange,
+  sortBy,
+  onSortByChange,
+}) => {
   let [toggleSort, setToggleSort] = useState(false);
   return (
     <div className="py-5">
@@ -82,7 +100,13 @@ const Search = ({ query, onQueryChange }) => {
             >
               Sort By <BiCaretDown className="ml-2" />
             </button>
-            <DropDown toggle={toggleSort} />
+            <DropDown
+              toggle={toggleSort}
+              sortBy={sortBy}
+              onSortByChange={(mySort) => onSortByChange(mySort)}
+              orderBy={orderBy}
+              onOrderByChange={(myOrder) => onOrderByChange(myOrder)}
+            />
           </div>
         </div>
       </div>

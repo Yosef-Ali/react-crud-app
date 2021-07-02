@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-=======
 import { useState, useEffect, useCallback } from "react";
 import { BiCalendar } from "react-icons/bi";
 import Search from "./components/Search";
@@ -29,14 +7,22 @@ import AppointmentInfo from "./components/AppointmentInfo";
 function App() {
   let [appointmentList, setAppointmentList] = useState([]);
   let [query, setQuery] = useState("");
+  let [orderBy, setOrderBy] = useState("petName");
+  let [sortBy, setSortBy] = useState("asc");
 
-  const filterAppointments = appointmentList.filter((item) => {
-    return (
-      item.petName.toLowerCase().includes(query.toLowerCase()) ||
-      item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
-      item.aptNotes.toLowerCase().includes(query.toLowerCase())
-    );
-  });
+  const filterAppointments = appointmentList
+    .filter((item) => {
+      return (
+        item.petName.toLowerCase().includes(query.toLowerCase()) ||
+        item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+        item.aptNotes.toLowerCase().includes(query.toLowerCase())
+      );
+    })
+    .sort((a, b) => {
+      let order = orderBy === "asc" ? 1 : -1;
+      //return a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+      return a[sortBy] < b[sortBy] ? -1 * order : 1 * order;
+    });
 
   const fetchData = useCallback(() => {
     fetch("./data.json")
@@ -57,7 +43,14 @@ function App() {
         Your Appointment
       </h1>
       <AddAppointment />
-      <Search query={query} onQueryChange={(myQuery) => setQuery(myQuery)} />
+      <Search
+        query={query}
+        onQueryChange={(myQuery) => setQuery(myQuery)}
+        orderBy={orderBy}
+        onOrderByChange={(mySort) => setOrderBy(mySort)}
+        sortBy={sortBy}
+        onSortByChange={(mySort) => setSortBy(mySort)}
+      />
       <ul className="divide-y divide-gray-200">
         {filterAppointments.map((appointment) => (
           <AppointmentInfo
@@ -73,7 +66,6 @@ function App() {
           />
         ))}
       </ul>
->>>>>>> master
     </div>
   );
 }
